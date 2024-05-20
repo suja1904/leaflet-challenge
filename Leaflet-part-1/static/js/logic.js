@@ -6,11 +6,11 @@ d3.json(queryURL).then(function(data) {
     createFeatures(data.features);
 });
 
+
 function createFeatures(earthquakeData) {
     // Define a function to run for each feature in the features array
     function onEachFeature(feature, layer) {
-        layer.bindPopup("<h3>" + feature.properties.place + 
-        "</h3><hr><p>" + new Date(feature.properties.time) + "</p>");
+        layer.bindPopup(`<h3>Location: ${feature.properties.place}</h3><hr><p>Date: ${new Date(feature.properties.time)}</p><p>Magnitude: ${feature.properties.mag}</p><p>Depth: ${feature.geometry.coordinates[2]}</p>`);
     }
 
     // Create a GeoJSON layer containing the features array on the earthquakeData object
@@ -88,6 +88,10 @@ function createMap(earthquakes) {
 
         div.innerHTML += '<strong>Depth</strong><br>';
 
+        // Create a color scale for the legend
+        div.innerHTML += '<div class="color-scale"></div>';
+
+        // Add depth intervals to the legend
         for (var i = 0; i < depths.length; i++) {
             div.innerHTML +=
                 '<i style="background:' + getColor(depths[i] + 1) + '"></i> ' +
